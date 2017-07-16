@@ -35,7 +35,7 @@ def run(code, acc, acc_active, a, printed, *args):
         if char == "/*":
             acc[acc_active] = 0
         if char == "*/":
-            print(acc[acc_active])
+            print(end=acc[acc_active])
             printed = True
         if char == '<#':
             acc_active = 1 ^ acc_active
@@ -51,7 +51,7 @@ def run(code, acc, acc_active, a, printed, *args):
         if char == " ":
             acc[acc_active] += 1
         if char == "#":
-            print(chr(acc[acc_active]))
+            print(end=chr(acc[acc_active]))
             printed = True
     return acc, acc_active, a, printed
 
