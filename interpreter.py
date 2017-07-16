@@ -58,11 +58,20 @@ def interpreter(code, *args):
             acc, a, printed = run(line, acc, a, printed, *args)
     if not printed:
         print(chr(acc))
+        
+def eval_input(args):
+    final = []
+    for arg in args:
+        try:
+            final.append(int(arg))
+        except:
+            continue
+    return final
 
 if __name__ == "__main__":
     import sys
     program = sys.argv[1]
-    args = list(map(int, sys.argv[2:]))
+    args = eval_input(sys.argv[2:])
     if program.endswith(".txt"):
         program = open(program).read()
     interpreter(program, *args)
