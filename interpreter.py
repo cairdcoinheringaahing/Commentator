@@ -16,48 +16,64 @@ def parser(code):
                 two_char = False
                 continue
             char = line[c]
-            if char in "/-*":
+            if char in "/-*<e":
                 char += line[c+1]
                 two_char = True
             parsed[-1].append(char)
     return parsed
 
-def run(code, acc, a, printed, *args):
+def run(code, acc, acc_active, a, printed, *args):
     for char in code:
-        if char == " ":
-            acc += 1
-        if char == "#":
-            print(chr(acc))
-            printed = True
         if char == "//":
             try:
-                acc += args[a]
+                acc[acc_active] += args[a]
             except:
-                acc += 1
+                acc[acc_active] += acc[1^acc_active]
             a += 1
         if char == "--":
-            acc = is_prime(acc)
+            acc[acc_active] = is_prime(acc[acc_active])
         if char == "/*":
-            acc = 0
+            acc[acc_active] = 0
         if char == "*/":
-            print(acc)
+            print(acc[acc_active])
             printed = True
-    return acc, a, printed
+        if char == '<#':
+            acc_active = 1 ^ acc_active
+        if char == '<!':
+            acc[acc_active] = acc[acc_active] // acc[acc_active]
+        if char == 'e#':
+            acc[acc_active] = 0 - acc[acc_active]
+            
+        if char == '!':
+            acc[acc_active] = acc[acc_active] * acc[1^acc_active]
+        if char == '%':
+            acc[acc_active] = acc[acc_active] % acc[1^acc_active]
+        if char == " ":
+            acc[acc_active] += 1
+        if char == "#":
+            print(chr(acc[acc_active]))
+            printed = True
+    return acc, acc_active, a, printed
 
 def interpreter(code, *args):
-    acc = 0
+    acc = [0,0]
+    acc_active = 0
     a = 0
     ln = 0
     printed = False
     for line in parser(code):
         ln ^= 1
-        if ln == 0 and line[0] == ";":
-            for i in range(acc):
-                acc, a, printed = run(line, acc, a, printed, *args)
+        if ln == 0:
+            if line[0] == ';':
+                for i in range(acc[active]):
+                    acc, acc_active, a, printed = run(line, acc, acc_active, a, printed, *args)
+            elif line[0] == ':':
+                if acc[active]:
+                    acc, acc_active, a, printed = run(line, acc, acc_active, a, printed, *args)
         else:
-            acc, a, printed = run(line, acc, a, printed, *args)
+            acc, acc_active, a, printed = run(line, acc, acc_active, a, printed, *args)
     if not printed:
-        print(chr(acc))
+        print(chr(acc[acc_active]))
         
 def eval_input(args):
     final = []
