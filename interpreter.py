@@ -70,6 +70,9 @@ def interpreter(code, *args):
         elif line[0] == ':':
             if acc[active]:
                 acc, acc_active, a, printed = run(line, acc, acc_active, a, printed, *args)
+        elif line[0] == '?':
+            while acc[acc_active]:
+                acc, acc_active, a, printed = run(line, acc, acc_active, a, printed, *args)
         else:
             acc, acc_active, a, printed = run(line, acc, acc_active, a, printed, *args)
     if not printed:
