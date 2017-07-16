@@ -59,17 +59,14 @@ def interpreter(code, *args):
     acc = [0,0]
     acc_active = 0
     a = 0
-    ln = 0
     printed = False
     for line in parser(code):
-        ln ^= 1
-        if ln == 0:
-            if line[0] == ';':
-                for i in range(acc[active]):
-                    acc, acc_active, a, printed = run(line, acc, acc_active, a, printed, *args)
-            elif line[0] == ':':
-                if acc[active]:
-                    acc, acc_active, a, printed = run(line, acc, acc_active, a, printed, *args)
+        if line[0] == ';':
+            for i in range(acc[active]):
+                acc, acc_active, a, printed = run(line, acc, acc_active, a, printed, *args)
+        elif line[0] == ':':
+            if acc[active]:
+                acc, acc_active, a, printed = run(line, acc, acc_active, a, printed, *args)
         else:
             acc, acc_active, a, printed = run(line, acc, acc_active, a, printed, *args)
     if not printed:
