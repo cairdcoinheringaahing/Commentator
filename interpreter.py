@@ -43,6 +43,8 @@ def run(code, acc, acc_active, a, printed, *args):
             acc[acc_active] = acc[acc_active] // acc[acc_active]
         if char == 'e#':
             acc[acc_active] = 0 - acc[acc_active]
+        if char == '{-':
+            acc[acc_active] = acc[acc_active] ^ 1
             
         if char == '!':
             acc[acc_active] = acc[acc_active] * acc[1^acc_active]
@@ -53,6 +55,7 @@ def run(code, acc, acc_active, a, printed, *args):
         if char == "#":
             print(end=chr(acc[acc_active]))
             printed = True
+            
     return acc, acc_active, a, printed
 
 def interpreter(code, *args):
