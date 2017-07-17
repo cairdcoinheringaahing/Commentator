@@ -16,7 +16,7 @@ def parser(code):
                 two_char = False
                 continue
             char = line[c]
-            if char in "/-*<e":
+            if char in "/-*<e}":
                 char += line[c+1]
                 two_char = True
             parsed[-1].append(char)
