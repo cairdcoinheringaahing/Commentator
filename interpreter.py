@@ -37,13 +37,13 @@ def run(code, acc, acc_active, a, printed, *args):
         if char == "*/":
             print(end=str(acc[acc_active]))
             printed = True
-        if char == '<#':
+        if char == '{-':
             acc_active = (acc_active + 1) % 20
         if char == '<!':
             acc[acc_active] = acc[acc_active] // acc[(acc_active + 1) % 20]
         if char == 'e#':
             acc[acc_active] = 0 - acc[acc_active]
-        if char == '{-':
+        if char == '<#':
             acc[acc_active] = acc[acc_active] ^ 1
         if char == '-}':
             acc_active = (acc_active - 1) % 20
