@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 def is_prime(x):
     for i in range(2,x):
         if x % i == 0:
@@ -16,7 +18,7 @@ def parser(code):
                 two_char = False
                 continue
             char = line[c]
-            if char in "/-*<e}":
+            if char in "/-*<e{":
                 char += line[c+1]
                 two_char = True
             parsed[-1].append(char)
@@ -152,6 +154,11 @@ if __name__ == "__main__":
         args = eval_input(sys.argv[2:])
         if program.endswith(".txt"):
             program = open(program).read()
+    except:
+        if sys.argv[0] != '.code.tio':
+            REPL(True)
+            
+    try:
         interpreter(program, *args)
     except:
-        REPL(True)
+        pass
