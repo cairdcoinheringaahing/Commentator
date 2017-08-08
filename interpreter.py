@@ -35,7 +35,8 @@ def run(code, acc, acc_active, a, printed, *args):
         if char == "--":
             acc[acc_active] = is_prime(acc[acc_active])
         if char == "/*":
-            acc[acc_active] = 0
+            print(end=chr(acc[acc_active]))
+            printed = True
         if char == "*/":
             print(end=str(acc[acc_active]))
             printed = True
@@ -59,8 +60,7 @@ def run(code, acc, acc_active, a, printed, *args):
         if char == " ":
             acc[acc_active] += 1
         if char == "#":
-            print(end=chr(acc[acc_active]))
-            printed = True
+            acc[acc_active] = 0
             
     return acc, acc_active, a, printed
 
