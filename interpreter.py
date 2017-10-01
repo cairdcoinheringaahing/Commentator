@@ -30,7 +30,7 @@ def run(code, acc, acc_active, a, printed, *args):
             try:
                 acc[acc_active] += args[a]
             except:
-                acc[acc_active] += acc[(acc_active + 1) % 20]
+                acc[acc_active] += acc[(acc_active + 1) % len(acc)]
             a += 1
         if char == "--":
             acc[acc_active] = is_prime(acc[acc_active])
@@ -41,22 +41,26 @@ def run(code, acc, acc_active, a, printed, *args):
             print(end=str(acc[acc_active]))
             printed = True
         if char == '{-':
-            acc_active = (acc_active + 1) % 20
+            acc_active = (acc_active + 1)
+            try:
+                acc[acc_active]
+            except:
+                acc.append(0)
         if char == '<!':
-            acc[acc_active] = acc[acc_active] // acc[(acc_active + 1) % 20]
+            acc[acc_active] = acc[acc_active] // acc[(acc_active + 1) % len(acc)]
         if char == 'e#':
             acc[acc_active] = 0 - acc[acc_active]
         if char == '<#':
             acc[acc_active] = acc[acc_active] ^ 1
         if char == '-}':
-            acc_active = (acc_active - 1) % 20
+            acc_active = (acc_active - 1) % len(acc)
             if acc_active < 0:
-                acc_active = 21 + acc_active
+                acc_active = (len(acc)+1) + acc_active
             
         if char == '!':
-            acc[acc_active] = acc[acc_active] * acc[(acc_active + 1) % 20]
+            acc[acc_active] = acc[acc_active] * acc[(acc_active + 1) % len(acc)]
         if char == '%':
-            acc[acc_active] = acc[acc_active] % acc[(acc_active + 1) % 20]
+            acc[acc_active] = acc[acc_active] % acc[(acc_active + 1) % len(acc)]
         if char == " ":
             acc[acc_active] += 1
         if char == "#":
@@ -65,7 +69,7 @@ def run(code, acc, acc_active, a, printed, *args):
     return acc, acc_active, a, printed
 
 def interpreter(code, *args):
-    acc = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    acc = [0]
     acc_active = 0
     a = 0
     printed = False
