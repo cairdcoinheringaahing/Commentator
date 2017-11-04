@@ -87,7 +87,7 @@ def interpreter(code, *args):
             acc, acc_active, a, printed = run(line, acc, acc_active, a, printed, *args)
     if not printed:
         print(acc[acc_active])
-    return printed
+    return acc
 
 def eval_input(args):
     final = []
@@ -163,6 +163,9 @@ if __name__ == "__main__":
             REPL(True)
             
     try:
-        interpreter(program, *args)
+        tape = interpreter(program, *args)
     except:
         pass
+    
+    if '-a' in sys.argv[2:]:
+        print(tape)
