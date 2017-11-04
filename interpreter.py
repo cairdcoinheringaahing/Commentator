@@ -56,6 +56,8 @@ def run(code, acc, acc_active, a, printed, *args):
             acc_active = (acc_active - 1) % len(acc)
             if acc_active < 0:
                 acc_active = (len(acc)+1) + acc_active
+        if char == '<-':
+            acc[acc_active] = not acc[acc_active]
             
         if char == '!':
             acc[acc_active] = acc[acc_active] * acc[(acc_active + 1) % len(acc)]
