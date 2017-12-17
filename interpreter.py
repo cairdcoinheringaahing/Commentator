@@ -75,18 +75,26 @@ def interpreter(code, *args):
     acc_active = 0
     a = 0
     printed = False
-    for line in parser(code):
-        if line[0] == ';':
-            for i in range(acc[acc_active]):
+    code = parser(code)
+    if code[0] == '<' and code[-1] == '>':
+        iters = int(args[0])
+        args = args[1:]
+        code = code[1:-1]
+    else:
+        iters = 1
+    for _ in range(iters):
+        for line in code:
+            if line[0] == ';':
+                for i in range(acc[acc_active]):
+                    acc, acc_active, a, printed = run(line, acc, acc_active, a, printed, *args)
+            elif line[0] == ':':
+                if acc[acc_active]:
+                    acc, acc_active, a, printed = run(line, acc, acc_active, a, printed, *args)
+            elif line[0] == '?':
+                while acc[acc_active]:
+                    acc, acc_active, a, printed = run(line, acc, acc_active, a, printed, *args)
+            else:
                 acc, acc_active, a, printed = run(line, acc, acc_active, a, printed, *args)
-        elif line[0] == ':':
-            if acc[acc_active]:
-                acc, acc_active, a, printed = run(line, acc, acc_active, a, printed, *args)
-        elif line[0] == '?':
-            while acc[acc_active]:
-                acc, acc_active, a, printed = run(line, acc, acc_active, a, printed, *args)
-        else:
-            acc, acc_active, a, printed = run(line, acc, acc_active, a, printed, *args)
     if not printed:
         print(acc[acc_active])
     return acc
